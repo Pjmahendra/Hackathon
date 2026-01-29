@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { formatPrice } from "../utils/pricing.js";
 
 export default function AdminPage() {
   const [workers, setWorkers] = useState([]);
@@ -78,7 +79,7 @@ export default function AdminPage() {
   };
 
   return (
-    <div className="card">
+    <div>
       <h2>Admin dashboard</h2>
 
       <section style={{ marginTop: "1rem" }}>
@@ -101,7 +102,7 @@ export default function AdminPage() {
                 <td>{w.user?.name || "-"}</td>
                 <td>
                   {w.jobs && w.jobs.length
-                    ? w.jobs.map((j) => `${j.name} (₹${j.pricePerHour}/hr)`).join(", ")
+                    ? w.jobs.map((j) => `${j.name} (${formatPrice(j.name)})`).join(", ")
                     : w.skills?.join(", ")}
                 </td>
                 <td>{w.location?.address || "-"}</td>
@@ -181,7 +182,7 @@ export default function AdminPage() {
                     <td style={{ color: "#9ca3af" }}>Jobs & Prices</td>
                     <td>
                       {visitsWorker.jobs && visitsWorker.jobs.length
-                        ? visitsWorker.jobs.map((j) => `${j.name} (₹${j.pricePerHour}/hr)`).join(", ")
+                        ? visitsWorker.jobs.map((j) => `${j.name} (${formatPrice(j.name)})`).join(", ")
                         : visitsWorker.skills?.join(", ") || "-"}
                     </td>
                   </tr>

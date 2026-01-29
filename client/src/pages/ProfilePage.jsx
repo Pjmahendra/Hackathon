@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { getJobPrice, formatPrice } from "../utils/pricing.js";
 
 export default function ProfilePage() {
   const [user, setUser] = useState(null);
@@ -176,7 +177,7 @@ export default function ProfilePage() {
                 <td>
                   {workerProfile.jobs && workerProfile.jobs.length > 0
                     ? workerProfile.jobs
-                        .map((j) => `${j.name} (₹${j.pricePerHour}/hr)`)
+                        .map((j) => `${j.name} (${formatPrice(j.name)})`)
                         .join(", ")
                     : workerProfile.skills?.join(", ") || "-"}
                 </td>

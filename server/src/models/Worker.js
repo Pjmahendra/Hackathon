@@ -8,7 +8,7 @@ const workerSchema = new mongoose.Schema(
     jobs: [
       {
         name: { type: String, required: true },
-        pricePerHour: { type: Number, required: true }
+        pricePerHour: { type: Number } // Optional - can be set from fixed pricing
       }
     ],
     isApproved: { type: Boolean, default: false },

@@ -101,15 +101,15 @@ export default function AuthPage({ onAuth }) {
 
   return (
     <div className="auth-screen">
-      <h1 style={{ position: "absolute", top: "1rem", left: "50%", transform: "translateX(-50%)", color: "#fff", fontSize: "2rem", fontWeight: "bold", zIndex: 10, margin: 0 }}>
-        Worker Booking
-      </h1>
       <div className={`auth-wrapper${isSignup ? " toggled" : ""}`}>
         <div className="background-shape" />
         <div className="secondary-shape" />
 
         {/* Login panel */}
         <div className="credentials-panel signin">
+          <h1 style={{ color: "#fff", fontSize: "1.75rem", fontWeight: "bold", margin: "0 0 1rem 0", textAlign: "center", whiteSpace: "nowrap" }}>
+            Worker Booking
+          </h1>
           <h2 className="slide-element">Login</h2>
           <form onSubmit={submitLogin}>
             <div className="field-wrapper slide-element">
@@ -180,6 +180,9 @@ export default function AuthPage({ onAuth }) {
 
         {/* Register panel */}
         <div className="credentials-panel signup">
+          <h1 style={{ color: "#fff", fontSize: "1.75rem", fontWeight: "bold", margin: "0 0 1rem 0", textAlign: "center", whiteSpace: "nowrap" }}>
+            Worker Booking
+          </h1>
           <h2 className="slide-element">Register</h2>
           <form onSubmit={submitRegister} className="auth-form-scroll">
             {/* Main details (always visible) */}
@@ -231,6 +234,7 @@ export default function AuthPage({ onAuth }) {
               >
                 <option value="user">Client</option>
                 <option value="worker">Worker</option>
+                <option value="admin">Admin</option>
               </select>
               <label>I am a</label>
               <span className="field-icon" aria-hidden="true">

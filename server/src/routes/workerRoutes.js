@@ -34,14 +34,19 @@ function isWorkerAvailableAt(worker, scheduledAt) {
 router.post("/register", async (req, res) => {
   try {
     const { userId, jobs = [], location, availability = [], profilePhoto } = req.body;
-    const skills = jobs.map((j) => j.name);
-    const hourlyRate = jobs.length ? jobs[0].pricePerHour : 0;
+    // Ensure all jobs have fixed prices
+    const jobsWithPrices = jobs.map((job) => ({
+      name: job.name,
+      pricePerHour: job.pricePerHour || getJobPrice(job.name)
+    }));
+    const skills = jobsWithPrices.map((j) => j.name);
+    const hourlyRate = jobsWithPrices.length ? jobsWithPrices[0].pricePerHour : 0;
     let worker = await Worker.findOne({ user: userId });
     if (worker) {
       worker.skills = skills;
       worker.hourlyRate = hourlyRate;
       worker.location = location;
-      worker.jobs = jobs;
+      worker.jobs = jobsWithPrices;
       worker.availability = availability;
       if (profilePhoto !== undefined) {
         worker.profilePhoto = profilePhoto;
@@ -53,7 +58,7 @@ router.post("/register", async (req, res) => {
         skills,
         hourlyRate,
         location,
-        jobs,
+        jobs: jobsWithPrices,
         availability,
         profilePhoto: profilePhoto || null
       });

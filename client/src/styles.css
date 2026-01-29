@@ -36,10 +36,12 @@ body {
   position: relative;
   width: 100%;
   max-width: 800px;
-  height: 500px;
+  height: auto;
+  min-height: auto;
   border: 2px solid #00d4ff;
   box-shadow: 0 0 25px #00d4ff;
   overflow: hidden;
+  margin: 0 auto;
 }
 
 .auth-wrapper .credentials-panel {
@@ -141,6 +143,13 @@ body {
   transition: 0.5s;
 }
 
+/* Password inputs should have more right padding for eye icon */
+.credentials-panel input[type="password"],
+.credentials-panel input[name="password"],
+.credentials-panel input[name="confirmPassword"] {
+  padding-right: 2.5rem !important;
+}
+
 .credentials-panel select {
   appearance: none;
 }
@@ -192,12 +201,13 @@ body {
   font-size: 18px;
   color: #fff;
   opacity: 0.9;
+  pointer-events: none;
 }
 
 .field-eye {
   position: absolute;
   top: 50%;
-  right: 0;
+  right: 0.5rem;
   transform: translateY(-50%);
   border: none;
   background: transparent;
@@ -205,6 +215,16 @@ body {
   padding: 0;
   font-size: 18px;
   line-height: 1;
+  z-index: 10;
+  width: auto;
+  height: auto;
+}
+
+/* Add padding to password inputs to make room for eye icon at the end */
+.field-wrapper input[type="password"],
+.field-wrapper input[name="password"],
+.field-wrapper input[name="confirmPassword"] {
+  padding-right: 3rem !important;
 }
 
 .submit-button {
@@ -415,7 +435,9 @@ body {
 @media (max-width: 768px) {
   .auth-wrapper {
     height: auto;
-    min-height: 520px;
+    min-height: auto;
+    max-width: 90%;
+    margin: 0 auto;
   }
   .auth-wrapper .background-shape,
   .auth-wrapper .secondary-shape,
@@ -433,9 +455,48 @@ body {
     right: 0;
   }
 
+  /* Fix panel visibility on mobile - override transforms */
+  .credentials-panel.signin .slide-element {
+    transform: translateX(0%) !important;
+    opacity: 1 !important;
+    filter: blur(0px) !important;
+  }
+
+  .credentials-panel.signup .slide-element {
+    transform: translateX(0%) !important;
+    opacity: 1 !important;
+    filter: blur(0px) !important;
+  }
+
+  /* Hide signin panel when toggled (register mode) on mobile */
+  .auth-wrapper.toggled .credentials-panel.signin {
+    display: none !important;
+  }
+
+  /* Show signup panel when toggled (register mode) on mobile */
+  .auth-wrapper.toggled .credentials-panel.signup {
+    display: flex !important;
+  }
+
+  /* Hide signup panel when not toggled (login mode) on mobile */
+  .auth-wrapper:not(.toggled) .credentials-panel.signup {
+    display: none !important;
+  }
+
+  /* Show signin panel when not toggled (login mode) on mobile */
+  .auth-wrapper:not(.toggled) .credentials-panel.signin {
+    display: flex !important;
+  }
+
   /* On mobile the welcome panel is hidden, so show the in-form switch link */
   .auth-wrapper .credentials-panel .switch-link.in-form {
     display: block;
+  }
+
+  /* Heading inside auth box */
+  .credentials-panel h1 {
+    font-size: 1.5rem !important;
+    white-space: nowrap !important;
   }
 }
 
@@ -865,6 +926,496 @@ button {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.5rem;
+  }
+}
+
+/* ============================================
+   COMPREHENSIVE MOBILE RESPONSIVE STYLES
+   ============================================ */
+
+/* Tablet and below (max-width: 1024px) */
+@media screen and (max-width: 1024px) {
+  .content {
+    padding: 1rem;
+  }
+
+  .card {
+    padding: 1rem;
+  }
+
+  .page-header {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .stats-row {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+}
+
+/* Mobile devices (max-width: 768px) */
+@media screen and (max-width: 768px) {
+  /* Navigation */
+  .topbar {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0.75rem 1rem;
+    gap: 0.75rem;
+  }
+
+  .logo {
+    font-size: 1.1rem;
+  }
+
+  .nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    width: 100%;
+    align-items: center;
+  }
+
+  .nav a,
+  .nav .btn-secondary {
+    margin-left: 0;
+    font-size: 0.85rem;
+    padding: 0.4rem 0.8rem;
+    white-space: nowrap;
+  }
+
+  /* Content and Cards */
+  .content {
+    padding: 1rem;
+  }
+
+  .card {
+    padding: 1rem;
+    border-radius: 0.75rem;
+  }
+
+  /* Page Headers */
+  .page-header {
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+
+  .page-title {
+    font-size: 1.5rem;
+  }
+
+  .stats-row {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    width: 100%;
+  }
+
+  .stat-pill {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.75rem;
+  }
+
+  /* Panels */
+  .panel {
+    padding: 0.75rem;
+  }
+
+  .panel-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .panel-header h3 {
+    font-size: 1.1rem;
+  }
+
+  /* Forms */
+  .form {
+    gap: 0.5rem;
+  }
+
+  label {
+    font-size: 0.85rem;
+  }
+
+  input,
+  textarea,
+  select {
+    padding: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  /* Buttons */
+  .btn-primary,
+  .btn-secondary,
+  button {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+    width: 100%;
+  }
+
+  .actions-row {
+    flex-direction: column;
+  }
+
+  .actions-row button {
+    width: 100%;
+  }
+
+  /* Tables - Make scrollable on mobile */
+  .table {
+    font-size: 0.8rem;
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .table thead,
+  .table tbody,
+  .table tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+  }
+
+  .table th,
+  .table td {
+    padding: 0.5rem 0.4rem;
+    word-wrap: break-word;
+  }
+
+  /* Worker Dashboard */
+  .worker-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  /* Item Cards */
+  .item-card {
+    padding: 0.75rem;
+  }
+
+  .item-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .item-meta {
+    font-size: 0.8rem;
+  }
+
+  /* Job List */
+  .job-list {
+    gap: 0.5rem;
+  }
+
+  .job-list-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 0.75rem;
+  }
+
+  .job-add-row {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  /* Status Pills */
+  .status-pill {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+  }
+
+  /* Auth Page Improvements */
+  .auth-screen h1 {
+    font-size: 1.5rem !important;
+    top: 0.5rem !important;
+    padding: 0 1rem;
+  }
+
+  .credentials-panel h2 {
+    font-size: 24px;
+  }
+
+  .field-wrapper {
+    margin-top: 20px;
+  }
+
+  /* Map Components */
+  .map-card {
+    width: 100%;
+    max-width: 100%;
+    margin: 0.5rem;
+    padding: 0.75rem;
+  }
+
+  .map-container {
+    height: 300px;
+  }
+
+  /* Profile Photo */
+  img[style*="border-radius: 50%"] {
+    max-width: 120px !important;
+    max-height: 120px !important;
+  }
+
+  /* Admin Page */
+  .admin-split {
+    flex-direction: column;
+  }
+
+  /* Subtle text */
+  .subtle {
+    font-size: 0.75rem;
+  }
+}
+
+/* Small mobile devices (max-width: 480px) */
+@media screen and (max-width: 480px) {
+  /* Even tighter spacing */
+  .content {
+    padding: 0.75rem;
+  }
+
+  .card {
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+  }
+
+  .page-title {
+    font-size: 1.25rem;
+  }
+
+  .panel {
+    padding: 0.5rem;
+  }
+
+  .panel-header h3 {
+    font-size: 1rem;
+  }
+
+  /* Navigation - Keep horizontal but wrap */
+  .nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+
+  .nav a,
+  .nav .btn-secondary {
+    width: auto;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  /* Forms - Full width inputs */
+  input,
+  textarea,
+  select {
+    width: 100%;
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+
+  /* Buttons */
+  .btn-primary,
+  .btn-secondary,
+  button {
+    width: 100%;
+    padding: 0.6rem 1rem;
+  }
+
+  /* Tables - Even smaller font */
+  .table {
+    font-size: 0.75rem;
+  }
+
+  .table th,
+  .table td {
+    padding: 0.4rem 0.3rem;
+  }
+
+  /* Hide less important info on very small screens */
+  .subtle {
+    font-size: 0.7rem;
+  }
+
+  /* Profile photos smaller */
+  img[style*="border-radius: 50%"] {
+    max-width: 100px !important;
+    max-height: 100px !important;
+  }
+
+  /* Auth page */
+  .auth-wrapper {
+    border-width: 1px;
+    max-width: 95%;
+  }
+
+  .credentials-panel.signin,
+  .credentials-panel.signup {
+    padding: 30px 20px;
+  }
+
+  .credentials-panel h2 {
+    font-size: 20px;
+  }
+
+  /* Heading inside auth box on small screens */
+  .credentials-panel h1 {
+    font-size: 1.25rem !important;
+    white-space: nowrap !important;
+  }
+
+  /* Stats row - full width items */
+  .stats-row {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .stat-pill {
+    width: 100%;
+    text-align: center;
+  }
+
+  /* Item cards - tighter */
+  .item-card {
+    padding: 0.5rem;
+  }
+
+  /* Job list items */
+  .job-list-item {
+    padding: 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  /* Auth section toggles */
+  .auth-section-toggle {
+    width: 100%;
+    text-align: left;
+  }
+}
+
+/* Additional mobile improvements */
+@media screen and (max-width: 768px) {
+  /* Better spacing for availability checkboxes */
+  .panel label[style*="display: flex"] {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  /* Location buttons stack vertically */
+  div[style*="display: flex"][style*="gap"] {
+    flex-direction: column;
+  }
+
+  /* Profile photo upload buttons */
+  div[style*="display: flex"][style*="gap: 0.5rem"] button {
+    width: 100%;
+  }
+
+  /* Booking time inputs */
+  div[style*="display: flex"][style*="gap: 0.5rem"][style*="marginTop"] {
+    flex-direction: column;
+  }
+
+  div[style*="display: flex"][style*="gap: 0.5rem"][style*="marginTop"] label {
+    width: 100%;
+  }
+
+  /* Worker info display in bookings */
+  div[style*="display: flex"][style*="alignItems: center"][style*="gap"] {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  /* Admin table improvements */
+  .table {
+    min-width: 600px; /* Force horizontal scroll if needed */
+  }
+
+  /* Map picker full screen on mobile */
+  .map-overlay {
+    padding: 0.5rem;
+  }
+
+  .map-card {
+    height: calc(100vh - 1rem);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .map-container {
+    flex: 1;
+    min-height: 0;
+  }
+}
+
+/* Very small screens - optimize further */
+@media screen and (max-width: 360px) {
+  .content {
+    padding: 0.5rem;
+  }
+
+  .card {
+    padding: 0.5rem;
+  }
+
+  .page-title {
+    font-size: 1.1rem;
+  }
+
+  .panel-header h3 {
+    font-size: 0.9rem;
+  }
+
+  .table {
+    font-size: 0.7rem;
+  }
+}
+
+/* Landscape mobile orientation */
+@media screen and (max-width: 768px) and (orientation: landscape) {
+  .auth-wrapper {
+    height: auto;
+    min-height: auto;
+  }
+
+  .auth-form-scroll {
+    max-height: 300px;
+  }
+
+  .map-container {
+    height: 250px;
+  }
+}
+
+/* Touch-friendly improvements for mobile */
+@media (hover: none) and (pointer: coarse) {
+  /* Larger touch targets */
+  .btn-primary,
+  .btn-secondary,
+  button,
+  a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Better spacing for touch */
+  .form {
+    gap: 1rem;
+  }
+
+  /* Prevent text selection on buttons */
+  button {
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
   }
 }
 

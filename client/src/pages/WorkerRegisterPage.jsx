@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import ClientLocationMap from "../components/ClientLocationMap.jsx";
+import { getJobPrice, formatPrice } from "../utils/pricing.js";
 
 export default function WorkerRegisterPage() {
   const JOB_OPTIONS = [
@@ -27,7 +28,6 @@ export default function WorkerRegisterPage() {
   const [jobs, setJobs] = useState([]);
   const [form, setForm] = useState({
     newJobName: "",
-    newJobPrice: "",
     address: ""
   });
   const [message, setMessage] = useState("");
@@ -75,29 +75,20 @@ export default function WorkerRegisterPage() {
 
   const addJob = () => {
     if (!form.newJobName) {
-      setMessage("Please choose a job type.");
-      return;
-    }
-    if (!form.newJobPrice) {
-      setMessage("Please enter a price for the job.");
+      setMessage("Please select a job type.");
       return;
     }
     if (jobs.some((j) => j.name === form.newJobName)) {
-      setMessage("You already added this job. You can change its price below.");
+      setMessage("You already added this job.");
       return;
     }
+    // Use fixed price from pricing structure
     setJobs((prev) => [
       ...prev,
-      { name: form.newJobName, pricePerHour: Number(form.newJobPrice) || 0 }
+      { name: form.newJobName, pricePerHour: getJobPrice(form.newJobName) }
     ]);
-    setForm((prev) => ({ ...prev, newJobName: "", newJobPrice: "" }));
+    setForm((prev) => ({ ...prev, newJobName: "" }));
     setMessage("");
-  };
-
-  const updateJobPrice = (name, price) => {
-    setJobs((prev) =>
-      prev.map((j) => (j.name === name ? { ...j, pricePerHour: Number(price) || 0 } : j))
-    );
   };
 
   const removeJob = (name) => {
@@ -192,7 +183,6 @@ export default function WorkerRegisterPage() {
                 });
                 setForm({
                   newJobName: "",
-                  newJobPrice: "",
                   address: worker.location?.address || ""
                 });
                 setAvailability(worker.availability || []);
@@ -227,15 +217,6 @@ export default function WorkerRegisterPage() {
       };
       reader.readAsDataURL(file);
     }
-  };
-
-  const handleTakePhoto = () => {
-    const input = document.createElement("input");
-    input.type = "file";
-    input.accept = "image/*";
-    input.capture = "user"; // Use camera on mobile
-    input.onchange = handlePhotoChange;
-    input.click();
   };
 
   const handleRemovePhoto = () => {
@@ -349,13 +330,6 @@ export default function WorkerRegisterPage() {
               </div>
             )}
             <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
-              <button
-                type="button"
-                onClick={handleTakePhoto}
-                className="btn-secondary"
-              >
-                📷 Take Photo
-              </button>
               <label className="btn-secondary" style={{ cursor: "pointer", margin: 0 }}>
                 📁 Choose from Files
                 <input
@@ -372,8 +346,8 @@ export default function WorkerRegisterPage() {
         {/* User comes from logged-in account; no manual input needed */}
         <section className="panel">
           <div className="panel-header">
-            <h3>Services & pricing</h3>
-            <span className="subtle">Add one or more jobs with price/hr</span>
+            <h3>Services</h3>
+            <span className="subtle">Add one or more jobs you can do (prices are fixed)</span>
           </div>
           <label>
             Add a job
@@ -386,17 +360,10 @@ export default function WorkerRegisterPage() {
               <option value="">Select job type</option>
               {JOB_OPTIONS.map((job) => (
                 <option key={job} value={job}>
-                  {job}
+                  {job} - {formatPrice(job)}
                 </option>
               ))}
             </select>
-            <input
-              name="newJobPrice"
-              type="number"
-              placeholder="Price/hr"
-              value={form.newJobPrice}
-              onChange={handleChange}
-            />
             <button type="button" className="btn-secondary" onClick={addJob}>
               Add
             </button>
@@ -407,12 +374,7 @@ export default function WorkerRegisterPage() {
             <div className="job-list">
               {jobs.map((job) => (
                 <div key={job.name} className="job-list-item">
-                  <span>{job.name}</span>
-                  <input
-                    type="number"
-                    value={job.pricePerHour}
-                    onChange={(e) => updateJobPrice(job.name, e.target.value)}
-                  />
+                  <span><strong>{job.name}</strong> - {formatPrice(job.name)}</span>
                   <button
                     type="button"
                     className="btn-secondary"
