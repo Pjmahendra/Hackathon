@@ -268,7 +268,7 @@ export default function WorkerRegisterPage() {
   };
 
   return (
-    <div className="card">
+    <div>
       <div className="page-header">
         <div>
           <h2 className="page-title">Profile</h2>
@@ -470,25 +470,29 @@ export default function WorkerRegisterPage() {
             <label style={{ display: "block", marginBottom: "0.5rem", fontSize: "0.9rem" }}>
               Select Days:
             </label>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", flexDirection: "row", width: "100%" }}>
               {DAYS_OF_WEEK.map((d) => (
                 <label
                   key={d.value}
                   style={{
-                    display: "flex",
+                    display: "inline-flex",
+                    flexDirection: "row",
                     alignItems: "center",
+                    justifyContent: "center",
                     padding: "0.5rem 1rem",
                     border: selectedDays.includes(d.value) ? "2px solid #00d4ff" : "1px solid #444",
                     borderRadius: "4px",
                     cursor: "pointer",
-                    backgroundColor: selectedDays.includes(d.value) ? "rgba(0, 212, 255, 0.1)" : "transparent"
+                    backgroundColor: selectedDays.includes(d.value) ? "rgba(0, 212, 255, 0.1)" : "transparent",
+                    whiteSpace: "nowrap",
+                    flexShrink: 0
                   }}
                 >
                   <input
                     type="checkbox"
                     checked={selectedDays.includes(d.value)}
                     onChange={() => toggleDay(d.value)}
-                    style={{ marginRight: "0.5rem", cursor: "pointer" }}
+                    style={{ marginRight: "0.5rem", cursor: "pointer", flexShrink: 0 }}
                   />
                   {d.label}
                 </label>

@@ -1,6 +1,6 @@
 export default function HomePage() {
   return (
-    <div className="card">
+    <div>
       <h1>Book trusted workers for your tasks</h1>
       <p>
         Describe your work, share your location, and we will connect you with the

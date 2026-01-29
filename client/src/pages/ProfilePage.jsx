@@ -68,7 +68,7 @@ export default function ProfilePage() {
 
   if (loading) {
     return (
-      <div className="card">
+      <div>
         <p className="info">Loading profile...</p>
       </div>
     );
@@ -76,7 +76,7 @@ export default function ProfilePage() {
 
   if (error) {
     return (
-      <div className="card">
+      <div>
         <p className="info" style={{ color: "#ef4444" }}>{error}</p>
       </div>
     );
@@ -84,14 +84,14 @@ export default function ProfilePage() {
 
   if (!user) {
     return (
-      <div className="card">
+      <div>
         <p className="info">User not found</p>
       </div>
     );
   }
 
   return (
-    <div className="card">
+    <div>
       <div className="page-header">
         <h1 className="page-title">My Profile</h1>
       </div>

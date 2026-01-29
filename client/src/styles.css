@@ -9,6 +9,11 @@ body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   background: #0f172a;
   color: #e5e7eb;
+  overflow-x: hidden; /* prevent horizontal scroll on mobile */
+}
+
+html {
+  overflow-x: hidden; /* prevent horizontal scroll on mobile */
 }
 
 .auth-content {
@@ -544,6 +549,14 @@ body {
   max-width: 960px;
   margin: 0 auto;
   width: 100%;
+}
+
+/* Ensure media never overflow the screen */
+img,
+video,
+canvas,
+svg {
+  max-width: 100%;
 }
 
 .card {
@@ -1334,8 +1347,17 @@ button {
   }
 
   /* Admin table improvements */
+  /* Don't force page-wide overflow; table can scroll inside itself */
   .table {
-    min-width: 600px; /* Force horizontal scroll if needed */
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  /* Any wide blocks should scroll within */
+  .panel,
+  .card {
+    max-width: 100%;
+    overflow-x: auto;
   }
 
   /* Map picker full screen on mobile */
