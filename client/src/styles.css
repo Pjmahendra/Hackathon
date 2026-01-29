@@ -11,6 +11,434 @@ body {
   color: #e5e7eb;
 }
 
+.auth-content {
+  padding: 0;
+  max-width: none;
+  margin: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden; /* prevent page scrollbars on auth routes */
+}
+
+/* Auth page (animated like your HTML template) */
+.auth-screen {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #1a1a2e;
+  padding: 20px;
+  overflow: hidden; /* keep scrolling inside form only */
+}
+
+.auth-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  height: 500px;
+  border: 2px solid #00d4ff;
+  box-shadow: 0 0 25px #00d4ff;
+  overflow: hidden;
+}
+
+.auth-wrapper .credentials-panel {
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.credentials-panel.signin {
+  left: 0;
+  padding: 0 40px;
+}
+
+.credentials-panel.signup {
+  right: 0;
+  padding: 0 60px;
+}
+
+.credentials-panel h2 {
+  font-size: 32px;
+  text-align: center;
+  color: #fff;
+}
+
+.credentials-panel .field-wrapper {
+  position: relative;
+  width: 100%;
+  height: 50px;
+  margin-top: 25px;
+}
+
+.auth-form-scroll {
+  max-height: 380px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 10px; /* space for scrollbar */
+}
+
+.auth-form-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+.auth-form-scroll::-webkit-scrollbar-thumb {
+  background: rgba(0, 212, 255, 0.35);
+  border-radius: 8px;
+}
+
+/* Only show the register form scrollbars when Register is active */
+.auth-wrapper:not(.toggled) .credentials-panel.signup .auth-form-scroll {
+  overflow: hidden;
+  padding-right: 0;
+}
+
+.auth-wrapper:not(.toggled)
+  .credentials-panel.signup
+  .auth-form-scroll::-webkit-scrollbar {
+  width: 0;
+}
+
+.auth-section {
+  margin-top: 18px;
+}
+
+.auth-section-toggle {
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: 1px solid rgba(0, 212, 255, 0.35);
+  color: #fff;
+  padding: 10px 12px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.auth-section-toggle:hover {
+  border-color: rgba(0, 212, 255, 0.7);
+}
+
+.auth-section-body {
+  margin-top: 10px;
+}
+
+.credentials-panel input,
+.credentials-panel select {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  color: #fff;
+  font-weight: 600;
+  border-bottom: 2px solid #fff;
+  padding-right: 56px;
+  transition: 0.5s;
+}
+
+.credentials-panel select {
+  appearance: none;
+}
+
+.credentials-panel input:focus,
+.credentials-panel input:valid,
+.credentials-panel select:focus,
+.credentials-panel select:valid {
+  border-bottom: 2px solid #00d4ff;
+}
+
+.field-wrapper label {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: #fff;
+  transition: 0.5s;
+  pointer-events: none;
+}
+
+/* Select fields: keep label above to avoid overlap */
+.field-wrapper.has-select label {
+  top: -6px;
+  transform: none;
+  font-size: 13px;
+  color: #00d4ff;
+}
+
+.field-wrapper.has-select select {
+  padding-top: 16px;
+  padding-bottom: 6px;
+}
+
+.field-wrapper input:focus ~ label,
+.field-wrapper input:valid ~ label,
+.field-wrapper select:focus ~ label,
+.field-wrapper select:valid ~ label {
+  top: -5px;
+  color: #00d4ff;
+}
+
+.field-icon {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  font-size: 18px;
+  color: #fff;
+  opacity: 0.9;
+}
+
+.field-eye {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.submit-button {
+  position: relative;
+  width: 100%;
+  height: 45px;
+  background: transparent;
+  border-radius: 40px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  border: 2px solid #00d4ff;
+  overflow: hidden;
+  z-index: 1;
+  color: #fff;
+}
+
+.submit-button::before {
+  content: "";
+  position: absolute;
+  height: 300%;
+  width: 100%;
+  background: linear-gradient(#1a1a2e, #00d4ff, #1a1a2e, #00d4ff);
+  top: -100%;
+  left: 0;
+  z-index: -1;
+  transition: 0.5s;
+}
+
+.submit-button:hover::before {
+  top: 0;
+}
+
+.switch-link {
+  font-size: 14px;
+  text-align: center;
+  margin: 20px 0 10px;
+  color: #fff;
+}
+
+.switch-link a {
+  text-decoration: none;
+  color: #00d4ff;
+  font-weight: 600;
+}
+
+.switch-link a:hover {
+  text-decoration: underline;
+}
+
+/* Place the "switch" link under the WELCOME panel on desktop */
+.welcome-section .switch-link {
+  text-align: inherit;
+  margin: 18px 0 0;
+}
+
+/* Don't show the form switch link on desktop (we show it in the welcome panel) */
+.auth-wrapper .credentials-panel .switch-link.in-form {
+  display: none;
+}
+
+.welcome-section {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  pointer-events: none;
+}
+
+/* Allow clicking the auth switch link inside welcome panels */
+.welcome-section .switch-link,
+.welcome-section .switch-link a,
+.welcome-section .switch-link button {
+  pointer-events: auto;
+}
+
+.welcome-section.signin {
+  right: 0;
+  text-align: right;
+  padding: 0 40px 60px 150px;
+}
+
+.welcome-section.signup {
+  left: 0;
+  text-align: left;
+  padding: 0 150px 60px 38px;
+}
+
+.welcome-section h2 {
+  text-transform: uppercase;
+  font-size: 36px;
+  line-height: 1.3;
+  color: #fff;
+}
+
+.auth-wrapper .background-shape {
+  position: absolute;
+  right: 0;
+  top: -5px;
+  height: 600px;
+  width: 850px;
+  background: linear-gradient(45deg, #1a1a2e, #00d4ff);
+  transform: rotate(10deg) skewY(40deg);
+  transform-origin: bottom right;
+  transition: 1.5s ease;
+  transition-delay: 1.6s;
+}
+
+.auth-wrapper.toggled .background-shape {
+  transform: rotate(0deg) skewY(0deg);
+  transition-delay: 0.5s;
+}
+
+.auth-wrapper .secondary-shape {
+  position: absolute;
+  left: 250px;
+  top: 100%;
+  height: 700px;
+  width: 850px;
+  background: #1a1a2e;
+  border-top: 3px solid #00d4ff;
+  transform: rotate(0deg) skewY(0deg);
+  transform-origin: bottom left;
+  transition: 1.5s ease;
+  transition-delay: 0.5s;
+}
+
+.auth-wrapper.toggled .secondary-shape {
+  transform: rotate(-11deg) skewY(-41deg);
+  transition-delay: 1.2s;
+}
+
+/* Slide timing (ported from your template) */
+.credentials-panel.signin .slide-element {
+  transform: translateX(0%);
+  transition: 0.7s;
+  opacity: 1;
+}
+.auth-wrapper.toggled .credentials-panel.signin .slide-element {
+  transform: translateX(-120%);
+  opacity: 0;
+}
+
+.credentials-panel.signup .slide-element {
+  transform: translateX(120%);
+  transition: 0.7s ease;
+  opacity: 0;
+  filter: blur(10px);
+}
+.auth-wrapper.toggled .credentials-panel.signup .slide-element {
+  transform: translateX(0%);
+  opacity: 1;
+  filter: blur(0px);
+}
+
+.welcome-section.signin .slide-element {
+  transform: translateX(0);
+  transition: 0.7s ease;
+  opacity: 1;
+  filter: blur(0px);
+}
+.auth-wrapper.toggled .welcome-section.signin .slide-element {
+  transform: translateX(120%);
+  opacity: 0;
+  filter: blur(10px);
+}
+
+.welcome-section.signup .slide-element {
+  transform: translateX(-120%);
+  transition: 0.7s ease;
+  opacity: 0;
+  filter: blur(10px);
+}
+.auth-wrapper.toggled .welcome-section.signup .slide-element {
+  transform: translateX(0%);
+  opacity: 1;
+  filter: blur(0);
+}
+
+.auth-message {
+  margin-top: 16px;
+  color: #a5b4fc;
+  max-width: 800px;
+  width: 100%;
+  text-align: center;
+}
+
+.auth-footer {
+  margin-top: 22px;
+  text-align: center;
+  font-size: 14px;
+  color: #fff;
+}
+
+.auth-footer a {
+  color: #00d4ff;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.auth-footer a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .auth-wrapper {
+    height: auto;
+    min-height: 520px;
+  }
+  .auth-wrapper .background-shape,
+  .auth-wrapper .secondary-shape,
+  .welcome-section {
+    display: none;
+  }
+  .auth-wrapper .credentials-panel {
+    position: relative;
+    width: 100%;
+  }
+  .credentials-panel.signin,
+  .credentials-panel.signup {
+    padding: 40px 30px;
+    left: 0;
+    right: 0;
+  }
+
+  /* On mobile the welcome panel is hidden, so show the in-form switch link */
+  .auth-wrapper .credentials-panel .switch-link.in-form {
+    display: block;
+  }
+}
+
 .app {
   min-height: 100vh;
   display: flex;
@@ -168,6 +596,24 @@ button {
   padding: 0.4rem 0.5rem;
 }
 
+/* Admin split layout: list + details side-by-side */
+.admin-split {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.admin-pane {
+  flex: 1;
+  min-width: 0; /* allow tables to shrink */
+}
+
+@media (max-width: 900px) {
+  .admin-split {
+    flex-direction: column;
+  }
+}
+
 .map-placeholder {
   margin-top: 1rem;
   padding: 1rem;
@@ -175,6 +621,55 @@ button {
   border: 1px dashed #4b5563;
   background: rgba(15, 23, 42, 0.6);
   font-size: 0.85rem;
+}
+
+/* Fullscreen Google Maps picker overlay */
+.map-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 50;
+}
+
+.map-card {
+  background: #020617;
+  border-radius: 1rem;
+  padding: 1rem;
+  width: 95%;
+  max-width: 480px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(148, 163, 184, 0.4);
+}
+
+.map-container {
+  height: 420px;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  margin-top: 0.5rem;
+}
+
+/* Ensure Leaflet map fills the container */
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.map-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.map-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
 }
 
 .job-options {
@@ -187,8 +682,182 @@ button {
 .job-option {
   display: flex;
   align-items: center;
-  gap: 0.25rem;
+  gap: 0.4rem;
   font-size: 0.85rem;
+}
+
+.job-add-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.job-add-row select,
+.job-add-row input {
+  max-width: 160px;
+}
+
+.job-list {
+  margin-top: 0.75rem;
+  max-height: 150px;
+  overflow-y: auto;
+  border-radius: 0.5rem;
+  border: 1px solid #4b5563;
+  padding: 0.5rem;
+  background: rgba(15, 23, 42, 0.7);
+}
+
+.job-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  padding: 0.25rem 0;
+}
+
+.job-list-item input {
+  max-width: 100px;
+}
+
+/* Worker UI */
+.page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.page-title {
+  margin: 0;
+}
+
+.subtle {
+  color: #9ca3af;
+  font-size: 0.9rem;
+  margin-top: 0.25rem;
+}
+
+.stats-row {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.stat-pill {
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  background: rgba(15, 23, 42, 0.55);
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  color: #e5e7eb;
+}
+
+.status-pill {
+  border-radius: 999px;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.75rem;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  background: rgba(15, 23, 42, 0.55);
+  color: #e5e7eb;
+}
+
+.status-pill.pending {
+  border-color: rgba(251, 191, 36, 0.5);
+  background: rgba(251, 191, 36, 0.12);
+}
+.status-pill.accepted {
+  border-color: rgba(34, 197, 94, 0.5);
+  background: rgba(34, 197, 94, 0.12);
+}
+.status-pill.cancelled {
+  border-color: rgba(248, 113, 113, 0.5);
+  background: rgba(248, 113, 113, 0.12);
+}
+
+.worker-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.panel {
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  background: rgba(2, 6, 23, 0.4);
+  border-radius: 1rem;
+  padding: 1rem;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.panel h3 {
+  margin: 0;
+}
+
+.item-list {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item-card {
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  background: rgba(15, 23, 42, 0.55);
+  border-radius: 0.9rem;
+  padding: 0.9rem;
+}
+
+.item-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.item-meta {
+  display: grid;
+  gap: 0.25rem;
+  margin-top: 0.5rem;
+  color: #d1d5db;
+  font-size: 0.85rem;
+}
+
+.actions-row {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.75rem;
+}
+
+.btn-danger {
+  border-radius: 999px;
+  border: 1px solid rgba(248, 113, 113, 0.5);
+  background: rgba(248, 113, 113, 0.12);
+  color: #fecaca;
+  padding: 0.5rem 1.1rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.btn-danger:hover {
+  background: rgba(248, 113, 113, 0.18);
+}
+
+@media (max-width: 900px) {
+  .worker-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 640px) {

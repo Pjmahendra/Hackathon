@@ -11,5 +11,8 @@ const reviewSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+// One review per booking per user
+reviewSchema.index({ booking: 1, user: 1 }, { unique: true });
+
 export const Review = mongoose.model("Review", reviewSchema);
 

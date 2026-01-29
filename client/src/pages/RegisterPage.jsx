@@ -91,6 +91,7 @@ export default function RegisterPage({ onRegister }) {
               name="workerJobs"
               value={form.workerJobs}
               onChange={handleChange}
+              placeholder=""
             >
               <option value="">Select job type</option>
               {JOB_OPTIONS.map((job) => (

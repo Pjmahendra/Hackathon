@@ -5,6 +5,7 @@ import axios from "axios";
 export default function LoginPage({ onLogin }) {
   const [form, setForm] = useState({ email: "", password: "" });
   const [message, setMessage] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -41,13 +42,24 @@ export default function LoginPage({ onLogin }) {
         </label>
         <label>
           Password
-          <input
-            type="password"
-            name="password"
-            value={form.password}
-            onChange={handleChange}
-            required
-          />
+          <div className="password-field">
+            <input
+              type={showPassword ? "text" : "password"}
+              name="password"
+              value={form.password}
+              onChange={handleChange}
+              required
+            />
+            <button
+              type="button"
+              className="password-toggle"
+              onClick={() => setShowPassword((v) => !v)}
+              aria-label={showPassword ? "Hide password" : "Show password"}
+              title="Toggle password visibility"
+            >
+              {showPassword ? "🙈" : "👁️"}
+            </button>
+          </div>
         </label>
         <button type="submit" className="btn-primary">
           Sign in
